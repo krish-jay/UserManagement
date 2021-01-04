@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <div th:replace="fragments :: script"></div>
+    <title>Users - Users Admin</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="sb-nav-fixed">
+<nav th:replace="fragments :: navi" />
+<div id="layoutSidenav">
+    <div th:replace="fragments :: sidenav" />
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4"></h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+                <div id="contacttable" class="card mb-4">
+                    <div class="card-header"><i class="fas fa-users"></i> &nbsp;Users <a class="btn btn-dark" data-toggle="modal" data-target="#addModal" style="line-height:0.5; float:right;" href="#"><i class="fas fa-plus-circle"></i>&nbsp; Add</a></div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>User Name</th>
+                                    <th>Mobile Number</th>
+                                    <th>Plan</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                <tr th:each="user : ${listallusers}">
+                                    <td th:text="${user.id}"></td>
+
+                                    <td th:text="${user.name}"></td>
+                                    <td th:text="${user.mobile}"></td>
+                                    <td th:text="${user.plan}"></td>
+                                    <td th:text="${user.status}"></td>
+                                    <td><a href="javascript:void(0)" data-toggle="modal" data-target="#myModal"  id="viewdata" th:data-id=${user.id} class="btn btn-primary"><i class="fa fa-edit"></i></a></td>
+                                    <td><a href="javascript:void(0)" data-toggle="modal" th:data-target="@{#delModal} +${user.id}" id="delcontact"  class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </main>
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content" id="condata">
+
+                </div>
+
+
+            </div>
+        </div>
+        <div id="addModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content"> <div class="modal-header">
+
+                    <h4 class="modal-title">Add User</h4>
+                </div>
+                    <div class="modal-body">
+                        <form method="post" name="cat-form" id="cat-form" >
+                            <div class="form-group"><label class="small mb-1" for="cname">User Name :</label><input class="form-control" name="name" id="name" type="text"  placeholder="Enter User Name"></div>
+                            <div class="form-group"><label class="small mb-1" for="url">Mobile :</label><input class="form-control" name="mobile" id="mobile" type="text" placeholder="Enter Mobile Number"></div>
+                            <div class="form-group"><label class="small mb-1" for="url">Plan :</label><input class="form-control" name="plan" id="plan" type="text" placeholder="Enter Plan"></div>
+                            <div class="form-group"><label class="small mb-1" for="url">Status :</label><input class="form-control" name="status" id="status" type="text" placeholder="Enter Status"></div>
+                            <input type="hidden" th:value="${listid}" id="id" name="id">
+
+                        </form>
+                    </div>
+                    <div id="res_message" class="modal-footer">
+                        <a href="#" id="btnblogcategory"  class="btn btn-dark">Add</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div></div>
+            </div></div>
+
+        <div th:each="user : ${listallusers}" th:id="@{delModal} +${user.id}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <h4 class="modal-title">Are You Sure to delete this ?</h4>
+                    </div>
+                    <div class="modal-body">
+                        Name: <b th:text="${user.name}"></b><br>
+                        Note : Its a Perament Delete Option.
+                    </div>
+                    <div id="blogcatedelete_message" class="modal-footer">
+                        <a class="btn btn-danger deleteuser" th:data-id=${user.id} href="#" >Delete</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <footer th:replace="fragments :: footer" />
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/chart-area-demo.js"></script>
+<script src="assets/demo/chart-bar-demo.js"></script>
+<script>
+// Delete User
+	  $('.deleteuser').click(function(){
+		    var id = $(this).attr('data-id');
+
+		 	var data_temp = {
+		 			id: id
+
+		 	};
+		 	var temp_data = JSON.stringify(data_temp);
+		 	console.log(temp_data);
+		 	$.ajax({
+		 		url:"/deleteUser",
+		 		method:"POST",
+		 		data: temp_data,
+		 		datatype:"text",
+		 	    contentType: "application/json",
+			  	success: function(data) {
+			  			$('#blogcatedelete_message').html("<small>Deleted....</small>")
+			  	      setTimeout(function()
+			  	        	{
+			  	        		location.reload(true);  //Refresh page
+			  	        }, 1000);
+		 		}
+		 	});
+	  });
+
+	   // Add Users
+	  $('#btnblogcategory').click(function(){
+	  //alert('ok');
+	  var data_temp = {
+		 			name: $('#name').val(),
+		 			mobile: $('#mobile').val(),
+		 			plan: $('#plan').val(),
+		 			status: $('#status').val(),
+		 			id: $('#id').val()
+		 	};
+		 	var temp_data = JSON.stringify(data_temp);
+		 	$.ajax({
+		 		url:"/addUser",
+		 		method:"POST",
+		 		data: temp_data,
+		 		datatype:"text",
+		 	    contentType: "application/json",
+		 		success: function(data) {
+			  			 $('#res_message').html("<center>Added...</center>");
+			  	      setTimeout(function()
+			  	        	{
+			  	        		location.reload(true);  //Refresh page
+			  	        }, 1000);
+
+		 		}
+		 	});
+
+
+	  });
+
+	  //view data
+	   $(document).on('click','#viewdata',function(){
+	  var dataid = $(this).attr('data-id');
+	  var data = {
+			  id:dataid
+	  }
+	  var tempdata = JSON.stringify(data);
+
+	  $.ajax({
+			type : "GET",
+        url :"viewUser/" + dataid,
+	        success: function(result){
+
+                 $('#myModal').modal('show');
+	        	$("#condata").html(result.msg);
+	      }
+		});
+  });
+
+  // Update User
+	  function demo(value){
+	  var id = value;
+        console.log("id:"+ id);
+        //console.log("keyword:"+ key);
+		 	var data_temp = {
+		 			id: value,
+		 			name: $('#uname').val(),
+		 			mobile: $('#umob').val(),
+		 			plan: $('#uplan').val(),
+		 			status: $('#ustat').val(),
+
+
+		 	};
+		 	var temp_data = JSON.stringify(data_temp);
+		 	console.log(temp_data);
+		 	$.ajax({
+		 		url:"/updateUser",
+		 		method:"POST",
+		 		data: temp_data,
+		 		datatype:"text",
+		 	    contentType: "application/json",
+			  	success: function(data) {
+			  			$('#blogupdate').html("<center>Updated Successfully !</center>")
+			  	      setTimeout(function()
+			  	        	{
+			  	        		location.reload();  //Refresh page
+			  	        }, 1000);
+		 		}
+		 	});
+	  }
+  </script>
+
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script src="assets/demo/datatables-demo.js"></script>
+</body>
+</html>
